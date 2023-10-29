@@ -1,53 +1,79 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: MyApp(),
-  ));
+  runApp(
+    MaterialApp(
+      home: DadosPage(),
+      debugShowCheckedModeBanner: false,
+    ),
+  );
 }
 
-class MyApp extends StatefulWidget {
+class DadosPage extends StatefulWidget {
+  const DadosPage({super.key});
+
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<DadosPage> createState() => _DadosPageState();
 }
 
-class _MyAppState extends State<MyApp> {
-  int num = 100;
-  void cambiarNumero() {
-    num += 100;
-  }
+class _DadosPageState extends State<DadosPage> {
+  int n = 1;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Dados"),
+          title: Text("DiceApp"),
         ),
-        body: Container(
-          color: Colors.indigoAccent,
+        body: Center(
           child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                num.toString(),
-                style: TextStyle(fontSize: 20),
+              SizedBox(
+                height: 40,
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    cambiarNumero();
-                    setState(() {});
-                  },
-                  child: Text("Cambiar a 200")),
-              Expanded(
-                child: Image.asset(
-                  "assets/images/dice1.png",
-                  fit: BoxFit.contain,
+              GestureDetector(
+                onDoubleTap: () {
+                  n = 1;
+                  setState(() {});
+                },
+                onTap: () {
+                  n = Random().nextInt(6) + 1;
+                  setState(() {});
+                },
+                child: Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    // PRIMERA FORMA DE APLICAR BORDE CIRCULAR A CONTAINER
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                    //FORMA DE APLICAR CIRCULAR BORDER A CONTAINER
+                    // shape: BoxShape.circle,
+                  ),
+                  width: 200,
+                  height: 200,
+                  child: Image.asset("assets/images/dice$n.png"),
                 ),
               ),
-              CircleAvatar(
-                radius: 100,
-                backgroundImage: AssetImage("assets/images/dice1.png"),
+              SizedBox(
+                height: 24,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  n = Random().nextInt(6) + 1;
+                  setState(() {});
+                },
+                child: Text("Ramdon"),
+              ),
+              Text(
+                n.toString(),
+                style: TextStyle(fontSize: 100),
               )
             ],
           ),
